@@ -4,13 +4,15 @@ import {Col, Row} from 'react-bootstrap';
 import {ContactCard} from 'src/components/ContactCard';
 import {ContactDto} from 'src/types/dto/ContactDto';
 
-export const FavoritListPage = memo<CommonPageProps>(({
+type FavoritListPageProps = Omit<CommonPageProps, 'groupContactsState'>;
+
+export const FavoritListPage = memo<FavoritListPageProps>(({
   favoriteContactsState,
   contactsState
 }) => {
   const [contacts, setContacts] = useState<ContactDto[]>([])
   useEffect(() => {
-    setContacts(() => contactsState.filter(({id}) => favoriteContactsState[0].includes(id)));
+    setContacts(() => contactsState.filter(({id}) => favoriteContactsState.includes(id)));
   }, [contactsState, favoriteContactsState])
   return (
     <Row xxl={4} className="g-4">

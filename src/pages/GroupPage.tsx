@@ -1,31 +1,22 @@
-import React, {memo, useEffect, useState} from 'react';
-import {CommonPageProps} from './types';
+import {memo, useEffect} from 'react';
 import {Col, Row} from 'react-bootstrap';
 import {useParams} from 'react-router-dom';
-import {ContactDto} from 'src/types/dto/ContactDto';
-import {GroupContactsDto} from 'src/types/dto/GroupContactsDto';
 import {GroupContactsCard} from 'src/components/GroupContactsCard';
 import {Empty} from 'src/components/Empty';
 import {ContactCard} from 'src/components/ContactCard';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { filterContacts, getGroupById } from 'src/redux/contacts';
 
-export const GroupPage = memo<CommonPageProps>(({
-  contactsState,
-  groupContactsState
-}) => {
+export const GroupPage = memo(() => {
+  const dispatch = useAppDispatch();
+  const contacts = useAppSelector((state) => state.contacts.filteredContacts);
+  const groupContacts = useAppSelector((state) => state.contacts.groupById);
   const {groupId} = useParams<{ groupId: string }>();
-  const [contacts, setContacts] = useState<ContactDto[]>([]);
-  const [groupContacts, setGroupContacts] = useState<GroupContactsDto>();
 
   useEffect(() => {
-    const findGroup = groupContactsState.find(({id}) => id === groupId);
-    setGroupContacts(findGroup);
-    setContacts(() => {
-      if (findGroup) {
-        return contactsState.filter(({id}) => findGroup.contactIds.includes(id))
-      }
-      return [];
-    });
-  }, [groupId]);
+    dispatch(getGroupById(groupId));
+    dispatch(filterContacts({groupId}));
+  }, [groupId, dispatch]);
 
   return (
     <Row className="g-4">
