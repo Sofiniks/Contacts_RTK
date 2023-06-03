@@ -14,7 +14,7 @@ export const ContactPage: FC<CommonPageProps> = ({
   const [contact, setContact] = useState<ContactDto>();
 
   useEffect(() => {
-    setContact(() => contactsState[0].find(({id}) => id === contactId));
+    setContact(() => contactsState.find(({id}) => id === contactId));
   }, [contactId]);
 
   return (

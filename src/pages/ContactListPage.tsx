@@ -9,9 +9,9 @@ import {ContactDto} from 'src/types/dto/ContactDto';
 export const ContactListPage = memo<CommonPageProps>(({
   contactsState, groupContactsState
 }) => {
-  const [contacts, setContacts] = useState<ContactDto[]>(contactsState[0])
+  const [contacts, setContacts] = useState<ContactDto[]>(contactsState)
   const onSubmit = (fv: Partial<FilterFormValues>) => {
-    let findContacts: ContactDto[] = contactsState[0];
+    let findContacts: ContactDto[] = contactsState;
 
     if (fv.name) {
       const fvName = fv.name.toLowerCase();
@@ -21,7 +21,7 @@ export const ContactListPage = memo<CommonPageProps>(({
     }
 
     if (fv.groupId) {
-      const groupContacts = groupContactsState[0].find(({id}) => id === fv.groupId);
+      const groupContacts = groupContactsState.find(({id}) => id === fv.groupId);
 
       if (groupContacts) {
         findContacts = findContacts.filter(({id}) => (
@@ -36,7 +36,7 @@ export const ContactListPage = memo<CommonPageProps>(({
   return (
     <Row xxl={1}>
       <Col className="mb-3">
-        <FilterForm groupContactsList={groupContactsState[0]} initialValues={{}} onSubmit={onSubmit} />
+        <FilterForm groupContactsList={groupContactsState} initialValues={{}} onSubmit={onSubmit} />
       </Col>
       <Col>
         <Row xxl={4} className="g-4">

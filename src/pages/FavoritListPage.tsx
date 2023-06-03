@@ -10,7 +10,7 @@ export const FavoritListPage = memo<CommonPageProps>(({
 }) => {
   const [contacts, setContacts] = useState<ContactDto[]>([])
   useEffect(() => {
-    setContacts(() => contactsState[0].filter(({id}) => favoriteContactsState[0].includes(id)));
+    setContacts(() => contactsState.filter(({id}) => favoriteContactsState[0].includes(id)));
   }, [contactsState, favoriteContactsState])
   return (
     <Row xxl={4} className="g-4">

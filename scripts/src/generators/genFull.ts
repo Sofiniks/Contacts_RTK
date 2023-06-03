@@ -11,5 +11,3 @@ export const genFull = async <T>(fn: () => T, count: number = 50) => {
     });
   return await Promise.allSettled(promises);
 }
-
-
